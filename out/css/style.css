@@ -1,15 +1,1 @@
-
-body {
-  font-size: 18px;
-}
-
-header {
-  color: #аee;
-}
-
-header .wrapper {
-  width: 1200px;
-  margin: 0 auto;
-  display: -webkit-box;
-  display: flex;
-}
+body{font-size:18px}header{color:#аee}header .wrapper{width:1200px;margin:0 auto;display:-webkit-box;display:flex}

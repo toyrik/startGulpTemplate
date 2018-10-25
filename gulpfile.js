@@ -5,48 +5,55 @@ const cleanCSS = require('gulp-clean-css');
 const del = require('del');
 const browserSync = require('browser-sync').create();
 
-const cssFiles = [
-  './dev/css/'
-]
+const patch = {
+	cssFiles: [
+    './dev/css/*.css'
+    ],
 
-const jsFiles = [
-  './dev/js/'
-]
+	jsFiles: [
+    './dev/js/*.js'
+    ],
 
-const htmlFiles = [
-  './dev/'
-]
+	htmlFiles: [
+    './dev/*.html'
+    ],
+
+  imgFiles: [
+  	'./dev/img/*.*'
+  ]
+  
+};
 
 function styles() {
-  return gulp.src(cssFiles + '*.css')
-    //.pipe(concat('style.css'))
+  return gulp.src(patch.cssFiles)
+    .pipe(concat('style.css'))
     .pipe(autoprefixer({
       browsers: ['>0.1%'],
       cascade: false
     }))
-    //.pipe(cleanCSS({
-    //  level: 2
-    //}))
+    .pipe(cleanCSS({
+     level: 2
+    }))
     .pipe(gulp.dest('./out/css'))
     .pipe(browserSync.stream());
 }
 
 
 function scripts() {
-  return gulp.src(jsFiles + '*.js')
+  return gulp.src(patch.jsFiles)
     .pipe(gulp.dest('./out/js'))
     .pipe(browserSync.stream());
 }
 
 function html() {
-  return gulp.src(htmlFiles + '*.html')
+  return gulp.src(patch.htmlFiles)
     .pipe(gulp.dest('./out'))
     .pipe(browserSync.stream());
 }
 
 function img() {
-  return gulp.src('./dev/img')
-    .pipe(gulp.dest('./out/img'));
+  return gulp.src(patch.imgFiles)
+    .pipe(gulp.dest('./out/img/'));
 }
 
 function watch() {
@@ -55,9 +62,10 @@ function watch() {
               baseDir: "./out"
           }
       });
-  gulp.watch(cssFiles, styles);
-  gulp.watch(jsFiles, scripts);
-  gulp.watch(htmlFiles, html).on('change', browserSync.reload);
+  gulp.watch(patch.cssFiles, styles);
+  gulp.watch(patch.jsFiles, scripts);
+  gulp.watch(patch.imgFiles, img);
+  gulp.watch(patch.htmlFiles, html).on('change', browserSync.reload);
 }
 
 function clear() {
